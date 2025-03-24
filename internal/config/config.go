@@ -12,20 +12,9 @@ type Config struct {
 	CurrentUserName string `json:"current_user_name"`
 }
 
-func SetUser(username string) error {
-	cfg, err := Read() // Make instance of Config{} using current config file
-	if err != nil {
-		return fmt.Errorf("failed to read config file: %v", err)
-	}
-
-	cfg.CurrentUserName = username // Make update to cfg instance
-
-	err = write(cfg) // Save new config information to config file
-	if err != nil {
-		return fmt.Errorf("failed to write config file: %v", err)
-	}
-
-	return nil
+func (cfg *Config) SetUser(userName string) error {
+	cfg.CurrentUserName = userName
+	return write(*cfg)
 }
 
 func Read() (Config, error) {

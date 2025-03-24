@@ -8,16 +8,17 @@ import (
 )
 
 func main() {
-	username := "paul"
-
-	err := config.SetUser(username)
+	cfg, err := config.Read()
 	if err != nil {
-		log.Fatalf("Failed to update: %v", err)
+		log.Fatalf("error reading config: %w", err)
 	}
+	fmt.Printf("Read config: %+v\n", cfg)
 
-	updatedconfig, err := config.Read()
+	err = cfg.SetUser("paul")
+
+	cfg, err = config.Read()
 	if err != nil {
-		log.Fatalf("Failed to read updated config: %v", err)
+		log.Fatalf("error reading config: %v", err)
 	}
-	fmt.Println(updatedconfig.DbUrl)
+	fmt.Printf("Read config again: %+v\n", cfg)
 }
